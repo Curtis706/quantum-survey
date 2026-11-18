@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>量子科技交流｜籌備團隊統計頁</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B1F3A; --navy-2:#132C52; --blue:#2F6BFF; --teal:#16B3A6;
+  --ink:#0E1A33; --ink-2:#3A4660; --ink-3:#6B768C; --line:#E3E8F0; --soft:#F4F7FB; --bg:#F7F9FC;
+  --bar:#2F6BFF; --bar-bg:#E9EFFA;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Noto Sans TC','PingFang TC','Microsoft JhengHei',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button,input{font-family:inherit}
+.top{position:relative;overflow:hidden;background:radial-gradient(120% 140% at 100% 0%,#1B3E78 0%,var(--navy) 55%,#071428 100%);color:#fff;padding:22px 28px 0}
+.top::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:36px 36px;-webkit-mask-image:linear-gradient(90deg,transparent,#000);mask-image:linear-gradient(90deg,transparent,#000);pointer-events:none}
+.top-in{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.kicker{font-family:Inter,sans-serif;font-size:11px;letter-spacing:.22em;color:#8FE9DF}
+h1{margin:4px 0 2px;font-size:22px;font-weight:700;letter-spacing:.04em}
+.updated{font-size:12.5px;color:#AFC0DD}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 16px;border-radius:999px;border:1px solid transparent;font-size:13.5px;font-weight:500;cursor:pointer;transition:all .18s;white-space:nowrap}
+.btn.ghost{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);color:#fff}
+.btn.ghost:hover{background:rgba(255,255,255,.16)}
+.btn.primary{background:var(--blue);color:#fff;box-shadow:0 8px 18px -10px rgba(47,107,255,.9)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.line{background:#fff;border-color:var(--line);color:var(--ink)}
+.btn.line:hover{border-color:#C4CEDF}
+.btn[disabled]{opacity:.6;cursor:default}
+.tabs{position:relative;z-index:1;display:flex;gap:4px;margin-top:18px}
+.tab{appearance:none;border:0;background:transparent;color:#B9C7E0;padding:10px 16px;font-size:14px;font-weight:500;border-radius:10px 10px 0 0;cursor:pointer}
+.tab:hover{color:#fff}
+.tab.on{background:var(--bg);color:var(--ink)}
+.panel{display:none;padding:24px 28px 36px}
+.panel.on{display:block}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.kpi .k{font-size:12.5px;color:var(--ink-3)}
+.kpi .v{font-family:Inter,sans-serif;font-size:30px;font-weight:600;color:var(--navy);line-height:1.2;margin-top:4px;font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:14px;font-weight:400;color:var(--ink-3);margin-left:4px}
+.kpi .s{font-size:12px;color:var(--ink-3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.box.wide{grid-column:1 / -1}
+.box h3{margin:0 0 14px;font-size:14.5px;font-weight:700;color:var(--navy);display:flex;justify-content:space-between;align-items:baseline}
+.box h3 span{font-size:12px;font-weight:400;color:var(--ink-3)}
+.bars{display:grid;gap:10px}
+.brow{display:grid;grid-template-columns:minmax(120px,38%) 1fr 74px;gap:12px;align-items:center}
+.brow .bl{font-size:13px;color:var(--ink-2);line-height:1.45}
+.brow .bt{display:block;height:10px;border-radius:999px;background:var(--bar-bg);overflow:hidden}
+.brow .bf{display:block;height:100%;border-radius:999px;background:var(--bar);width:0;transition:width .7s cubic-bezier(.2,.7,.2,1)}
+.brow .bv{text-align:right;font-family:Inter,sans-serif;font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.brow .bv small{color:var(--ink-3);margin-left:4px}
+.brow.zero .bl,.brow.zero .bv{color:#A3ADBF}
+.rank .brow{grid-template-columns:26px minmax(160px,44%) 1fr 74px}
+.rank .no{font-family:Inter,sans-serif;font-weight:600;color:var(--blue);font-size:13px}
+.stack{display:flex;height:14px;border-radius:999px;overflow:hidden;background:var(--bar-bg);margin:4px 0 14px}
+.stack i{display:block;height:100%}
+.legend{display:grid;gap:8px}
+.legend div{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-2)}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:3px}
+.legend .lv{margin-left:auto;font-family:Inter,sans-serif;color:var(--ink);font-variant-numeric:tabular-nums}
+.note{font-size:12.5px;color:var(--ink-3);margin:14px 0 0}
+.sum-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.sum-head p{margin:0;color:var(--ink-2);font-size:13.5px}
+.summary{margin:0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;font-family:'Noto Sans TC','PingFang TC',sans-serif;font-size:14px;line-height:1.9;white-space:pre-wrap;color:var(--ink)}
+.rec-tools{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.search{flex:1;max-width:340px;height:38px;border:1px solid var(--line);border-radius:10px;padding:0 12px;font-size:14px;background:#fff}
+.search:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(47,107,255,.12)}
+.rec-count{color:var(--ink-3);font-size:13px}
+.table-wrap{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:auto;max-height:520px}
+table{border-collapse:collapse;width:100%;min-width:1500px;font-size:13px}
+th{position:sticky;top:0;background:#F0F4FA;color:var(--ink-2);font-weight:600;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap;z-index:1}
+td{padding:9px 12px;border-bottom:1px solid #EEF1F6;vertical-align:top;color:var(--ink)}
+tr.dim td{color:#A3ADBF}
+.tag{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:999px;background:#FFF2D9;color:#8A5A00;white-space:nowrap}
+.tag.gray{background:#EEF1F6;color:#6B768C}
+.exp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.exp .box{display:flex;flex-direction:column;gap:10px}
+.exp .box p{margin:0;color:var(--ink-2);font-size:13.5px}
+.exp .ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:#EEF3FF;color:var(--blue);font-family:Inter,sans-serif;font-weight:600;font-size:13px}
+.exp .box .btn{align-self:flex-start;margin-top:4px}
+.warn{margin-top:16px;padding:12px 16px;border-radius:12px;background:#FFF7E8;border:1px solid #F4DDAF;color:#7A5300;font-size:13px}
+.empty{padding:60px 20px;text-align:center;color:var(--ink-3)}
+.loading{padding:80px 20px;text-align:center;color:var(--ink-3)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:10px 18px;border-radius:999px;font-size:13.5px;opacity:0;pointer-events:none;transition:all .25s;box-shadow:0 10px 30px -10px rgba(0,0,0,.4);z-index:10}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.demo{background:#E6FBF8;color:#0D6E66;font-size:12.5px;text-align:center;padding:7px 12px;border-bottom:1px solid #BDEFE8}
+.demo a{color:#0B4F49}
+@media (max-width:820px){.kpis{grid-template-columns:1fr 1fr}.grid,.exp{grid-template-columns:1fr}.panel{padding:18px}.top{padding:18px 18px 0}}
+</style>
+</head>
+<body data-tab="overview">
+<div id="demoRibbon" class="demo" hidden>設計預覽模式・以下為 27 筆虛構範例資料・<a href="index.html">← 回到填表頁</a></div>
+<header class="top">
+  <div class="top-in">
+    <div>
+      <div class="kicker">QUANTUM FUTURE · ORGANIZER</div>
+      <h1>參與者背景統計</h1>
+      <div class="updated" id="updated">載入中…</div>
+    </div>
+    <div class="actions">
+      <button class="btn ghost" id="refreshBtn" type="button">↻ 重新整理</button>
+    </div>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button class="tab" data-tab="overview" role="tab" type="button">統計總覽</button>
+    <button class="tab" data-tab="summary" role="tab" type="button">講者摘要</button>
+    <button class="tab" data-tab="records" role="tab" type="button">填寫明細</button>
+    <button class="tab" data-tab="export" role="tab" type="button">匯出</button>
+  </nav>
+</header>
+
+<section class="panel" id="p-overview"><div class="loading">資料載入中…</div></section>
+
+<section class="panel" id="p-summary">
+  <div class="sum-head">
+    <p>這份摘要只有彙整數字，不含任何姓名、公司或職稱，可直接貼到 LINE 或 Email 給張博士。</p>
+    <button class="btn primary" id="copyBtn" type="button">複製講者摘要</button>
+  </div>
+  <pre class="summary" id="summaryText">載入中…</pre>
+</section>
+
+<section class="panel" id="p-records">
+  <div class="rec-tools">
+    <input class="search" id="search" type="search" placeholder="搜尋姓名、公司、產業、職稱…">
+    <span class="rec-count" id="recCount"></span>
+  </div>
+  <div class="table-wrap"><table id="recTable"></table></div>
+  <p class="note">標示「已取代」的資料為同名者較早的填寫，統計時不計入。此頁含個人資料，請勿截圖外流。</p>
+</section>
+
+<section class="panel" id="p-export">
+  <div class="exp">
+    <div class="box">
+      <div class="ico">XLSX</div>
+      <h3>匯出 Excel</h3>
+      <p>包含「填寫資料」「統計分析」「講者摘要」三個工作表，匯出前會自動更新統計。</p>
+      <button class="btn primary" id="xlsxBtn" type="button">下載 Excel</button>
+    </div>
+    <div class="box">
+      <div class="ico">CSV</div>
+      <h3>匯出 CSV</h3>
+      <p>僅包含「填寫資料」，可用 Excel 或其他軟體開啟（UTF-8，中文不會亂碼）。</p>
+      <button class="btn line" id="csvBtn" type="button">下載 CSV</button>
+    </div>
+  </div>
+  <div class="warn">匯出檔含個人資料，請妥善保管；活動結束後 30 日內請刪除電腦中的匯出檔。若瀏覽器沒有開始下載，也可在試算表上方點「檔案 › 下載」。</div>
+</section>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="config.js"></script>
+<script>window.STATS_MODE = { gasUrl: (window.SURVEY_CONFIG || {}).gasUrl || '' };</script>
+<script src="demo-data.js"></script>
+<script>
+(function () {
+  'use strict';
+  var IS_GAS = !!(window.google && google.script && google.script.run);
+  var $ = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  var DATA = null;
+  var COLORS = ['#2F6BFF', '#16B3A6', '#A7B4C8'];
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function toast(msg) {
+    var t = $('#toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(toast._t); toast._t = setTimeout(function () { t.classList.remove('show'); }, 2600);
+  }
+
+  /* ---------- tabs ---------- */
+  function setTab(name) {
+    $$('.tab').forEach(function (b) { b.classList.toggle('on', b.dataset.tab === name); b.setAttribute('aria-selected', b.dataset.tab === name); });
+    $$('.panel').forEach(function (p) { p.classList.toggle('on', p.id === 'p-' + name); });
+  }
+  $$('.tab').forEach(function (b) { b.addEventListener('click', function () { setTab(b.dataset.tab); }); });
+  var initTab = document.body.getAttribute('data-tab');
+  setTab(/^(overview|summary|records|export)$/.test(initTab) ? initTab : 'overview');
+
+  /* ---------- load ---------- */
+  // 公開統計頁模式（GitHub Pages 的 stats.html）：只顯示彙整統計與講者摘要，不含任何個人資料
+  var PUB = window.STATS_MODE || null;
+  if (PUB) {
+    $$('.tab[data-tab="records"],.tab[data-tab="export"]').forEach(function (b) { b.remove(); });
+    $('#p-records').remove(); $('#p-export').remove();
+    document.querySelector('.kicker').textContent = 'QUANTUM FUTURE · 籌備團隊統計頁';
+    if (!/^(overview|summary)$/.test(initTab)) setTab('overview');
+  }
+  function pubKey() { var m = /(?:^#|&)key=([^&]+)/.exec(location.hash || ''); return m ? decodeURIComponent(m[1]) : ''; }
+
+  function load() {
+    $('#updated').textContent = '載入中…';
+    if (PUB && PUB.gasUrl) {
+      var key = pubKey();
+      if (!key) { $('#p-overview').innerHTML = '<div class="empty">此連結缺少存取碼，請向主辦人索取完整的統計頁連結。</div>'; $('#updated').textContent = ''; return; }
+      fetch(PUB.gasUrl + '?action=stats&key=' + encodeURIComponent(key), { redirect: 'follow', cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (!d || !d.ok) { $('#p-overview').innerHTML = '<div class="empty">' + esc((d && d.message) || '無法載入統計') + '</div>'; $('#updated').textContent = ''; return; }
+          DATA = d; renderAll();
+        }, function () { $('#p-overview').innerHTML = '<div class="empty">網路連線不穩，請稍後按「重新整理」。</div>'; $('#updated').textContent = '載入失敗'; });
+      return;
+    }
+    if (!IS_GAS) {
+      if (window.__DEMO__) { $('#demoRibbon').hidden = false; DATA = window.__DEMO__; renderAll(); }
+      return;
+    }
+    google.script.run
+      .withSuccessHandler(function (d) { DATA = d; renderAll(); })
+      .withFailureHandler(function (e) {
+        $('#p-overview').innerHTML = '<div class="empty">無法載入資料：' + esc(e && e.message ? e.message : e) + '</div>';
+        $('#updated').textContent = '載入失敗';
+      })
+      .getDashboardData();
+  }
+  $('#refreshBtn').addEventListener('click', load);
+
+  function renderAll() {
+    var s = DATA.stats;
+    $('#updated').textContent = '更新時間 ' + DATA.updatedAt + '・共 ' + s.rawCount + ' 筆填寫，有效 ' + s.total + ' 人' + (s.replacedCount ? '（' + s.replacedCount + ' 筆同名舊資料不計）' : '');
+    renderOverview(s);
+    $('#summaryText').textContent = DATA.summary;
+    if (DATA.records) renderRecords();
+  }
+
+  /* ---------- overview ---------- */
+  function bars(list, total, opt) {
+    opt = opt || {};
+    var max = Math.max.apply(null, list.map(function (x) { return x.count; }).concat([1]));
+    return '<div class="bars' + (opt.rank ? ' rank' : '') + '">' + list.map(function (x, i) {
+      var w = opt.rank ? (x.count / max * 100) : (total ? x.count / total * 100 : 0);
+      return '<div class="brow' + (x.count ? '' : ' zero') + '">' +
+        (opt.rank ? '<span class="no">' + (i + 1) + '</span>' : '') +
+        '<span class="bl">' + esc(x.label) + '</span>' +
+        '<span class="bt"><span class="bf" data-w="' + w.toFixed(1) + '"></span></span>' +
+        '<span class="bv">' + x.count + ' 人<small>' + x.pct + '%</small></span></div>';
+    }).join('') + '</div>';
+  }
+  function renderOverview(s) {
+    var el = $('#p-overview');
+    if (!s.total) { el.innerHTML = '<div class="empty">目前還沒有人填寫。<br>把填表網址分享到 LINE 群組後，這裡就會出現統計。</div>'; return; }
+    var fam = s.familiarity;
+    var beginner = (fam[0] ? fam[0].count : 0) + (fam[1] ? fam[1].count : 0);
+    var topTopic = s.topics[0] || { label: '—', count: 0 };
+    var stem = s.eduGroups[0];
+    var html = '<div class="kpis">' +
+      kpi('有效填寫人數', s.total, '人', '同名重複填寫只計最新一筆') +
+      kpi('理工背景', stem.pct, '%', stem.count + ' 人') +
+      kpi('初學／略有概念', s.total ? Math.round(beginner / s.total * 100) : 0, '%', beginner + ' 人・了解程度前兩級') +
+      kpi('最熱門主題', topTopic.count, '人', topTopic.label) +
+      '</div><div class="grid">';
+
+    // 教育背景
+    html += '<div class="box"><h3>教育背景<span>依大學主要領域歸類</span></h3><div class="stack">' +
+      s.eduGroups.map(function (g, i) { return '<i style="width:' + (s.total ? g.count / s.total * 100 : 0) + '%;background:' + COLORS[i] + '"></i>'; }).join('') +
+      '</div><div class="legend">' +
+      s.eduGroups.map(function (g, i) { return '<div><b style="background:' + COLORS[i] + '"></b>' + esc(g.label) + '<span class="lv">' + g.count + ' 人・' + g.pct + '%</span></div>'; }).join('') +
+      '</div><p class="note">選項含「理工」計入理工背景；含「商」或「管理」計入商管背景。</p></div>';
+
+    html += '<div class="box"><h3>量子電腦了解程度</h3>' + bars(fam, s.total) + '</div>';
+    html += '<div class="box"><h3>所屬產業</h3>' + bars(s.industry, s.total) + '</div>';
+    html += '<div class="box"><h3>職務類型</h3>' + bars(s.role, s.total) + '</div>';
+    html += '<div class="box wide"><h3>最感興趣的交流主題<span>可複選・占比為選擇人數 ÷ 有效填寫人數</span></h3>' + bars(s.topics, s.total, { rank: true }) + '</div>';
+    html += '<div class="box wide"><h3>大學主要領域（明細）</h3>' + bars(s.eduDetail, s.total) + '</div>';
+    html += '</div>';
+    el.innerHTML = html;
+    requestAnimationFrame(function () {
+      $$('.bf').forEach(function (b) { b.style.width = b.dataset.w + '%'; });
+    });
+  }
+  function kpi(k, v, unit, sub) {
+    return '<div class="kpi"><div class="k">' + esc(k) + '</div><div class="v">' + esc(v) + '<small>' + esc(unit) + '</small></div><div class="s" title="' + esc(sub) + '">' + esc(sub) + '</div></div>';
+  }
+
+  /* ---------- records ---------- */
+  var SHOW = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15]; // 不顯示：同意、送出編號
+  function renderRecords() {
+    var q = ($('#search').value || '').trim().toLowerCase();
+    var rows = DATA.records.slice().reverse();
+    if (q) rows = rows.filter(function (r) { return r.join(' ').toLowerCase().indexOf(q) !== -1; });
+    $('#recCount').textContent = '顯示 ' + rows.length + ' / ' + DATA.records.length + ' 筆（新到舊）';
+    var head = '<tr>' + SHOW.map(function (i) { return '<th>' + esc(DATA.headers[i]) + '</th>'; }).join('') + '</tr>';
+    var body = rows.map(function (r) {
+      var replaced = String(r[15] || '').indexOf(DATA.replacedMark) !== -1;
+      return '<tr class="' + (replaced ? 'dim' : '') + '">' + SHOW.map(function (i) {
+        if (i === 15) {
+          if (replaced) return '<td><span class="tag gray">已取代</span></td>';
+          return '<td>' + (r[i] ? '<span class="tag">' + esc(r[i]) + '</span>' : '') + '</td>';
+        }
+        var v = i === 11 ? String(r[i] || '').split('；').map(esc).join('<br>') : esc(r[i]);
+        return '<td>' + v + '</td>';
+      }).join('') + '</tr>';
+    }).join('');
+    $('#recTable').innerHTML = '<thead>' + head + '</thead><tbody>' + (body || '<tr><td colspan="' + SHOW.length + '" class="empty">沒有符合的資料</td></tr>') + '</tbody>';
+  }
+  var se = $('#search'); if (se) se.addEventListener('input', function () { if (DATA && DATA.records) renderRecords(); });
+
+  /* ---------- copy ---------- */
+  $('#copyBtn').addEventListener('click', function () {
+    var text = DATA ? DATA.summary : '';
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      if (ok) toast('已複製講者摘要');
+      else { selectSummary(); toast('請按 Ctrl／⌘ + C 複製已選取的文字'); }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { toast('已複製講者摘要'); }, fallback);
+    } else fallback();
+  });
+  function selectSummary() {
+    var r = document.createRange(); r.selectNodeContents($('#summaryText'));
+    var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+  }
+
+  /* ---------- export ---------- */
+  function download(blob, filename) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename; a.style.display = 'none';
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 2000);
+  }
+  function busy(btn, on, label) {
+    btn.disabled = on;
+    if (on) { btn.dataset.l = btn.textContent; btn.textContent = label; } else if (btn.dataset.l) btn.textContent = btn.dataset.l;
+  }
+  $('#xlsxBtn') && $('#xlsxBtn').addEventListener('click', function () {
+    var b = this;
+    if (!IS_GAS) { toast('預覽模式：正式上線後會下載 Excel 檔'); return; }
+    busy(b, true, '產生中…');
+    google.script.run
+      .withSuccessHandler(function (res) {
+        busy(b, false);
+        var bin = atob(res.base64), bytes = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        download(new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), res.filename);
+        toast('已開始下載 Excel');
+      })
+      .withFailureHandler(function (e) { busy(b, false); toast('匯出失敗：' + (e && e.message ? e.message : e)); })
+      .exportExcel();
+  });
+  $('#csvBtn') && $('#csvBtn').addEventListener('click', function () {
+    var b = this;
+    if (!IS_GAS) { toast('預覽模式：正式上線後會下載 CSV 檔'); return; }
+    busy(b, true, '產生中…');
+    google.script.run
+      .withSuccessHandler(function (res) {
+        busy(b, false);
+        download(new Blob(['\ufeff', res.content], { type: 'text/csv;charset=utf-8' }), res.filename);
+        toast('已開始下載 CSV');
+      })
+      .withFailureHandler(function (e) { busy(b, false); toast('匯出失敗：' + (e && e.message ? e.message : e)); })
+      .exportCsv();
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>
