@@ -11,12 +11,12 @@
 ## 架構
 
 - **前端**：GitHub Pages（`index.html`、`stats.html`），不需要主機。
-- **後端**：Google Apps Script（`gas/` 資料夾的三個檔案），資料存進主辦人自己的 Google 試算表。
+- **後端**：Google Apps Script（`gas/` 資料夾的兩個檔案），資料存進主辦人自己的 Google 試算表。
 - 前端透過 `config.js` 裡的 `/exec` 網址呼叫後端；`config.js` 留空時網站是「設計預覽模式」，資料不會儲存。
 
 ## 啟用步驟（約 10 分鐘）
 
-1. 建立 Google 試算表 → `擴充功能 › Apps Script`，把 `gas/Code.gs`、`gas/Index.html`、`gas/Dashboard.html` 分別貼進去（HTML 檔名為 `Index`、`Dashboard`），儲存。
+1. 建立 Google 試算表 → `擴充功能 › Apps Script`，把 `gas/Code.gs`、`gas/Dashboard.html` 分別貼進去（HTML 檔名為 `Dashboard`），儲存。
 2. 函式選單選 `setupSystem` → ▶ 執行 → 授權（看到「Google 尚未驗證」時點 進階 › 前往）。
 3. `部署 › 新增部署作業 › 網頁應用程式`：執行身分「我」、存取權「所有人」→ 部署 → 複製結尾為 `/exec` 的網址。
 4. 把網址貼進本 repo 的 `config.js` 的 `gasUrl`，commit 後約 1 分鐘生效。

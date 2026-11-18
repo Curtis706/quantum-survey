@@ -96,7 +96,11 @@ function doGet(e) {
   var action = e && e.parameter ? e.parameter.action : '';
   if (action === 'config') return json_(getFormConfig());
   if (action === 'stats') return json_(getPublicStats_(e.parameter.key));
-  return HtmlService.createHtmlOutputFromFile('Index')
+  // 填表頁架在 GitHub Pages；直接開啟 /exec 網址時顯示前往連結
+  return HtmlService.createHtmlOutput(
+    '<div style="font-family:sans-serif;text-align:center;padding:60px 20px;line-height:1.8">' +
+    '<h2>量子電腦的未來｜EMBA 參與者背景調查</h2>' +
+    '<p><a href="' + APP.PAGES_URL + '" target="_top" style="font-size:18px">點此前往填寫問卷 →</a></p></div>')
     .setTitle(APP.TITLE)
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.DEFAULT);
